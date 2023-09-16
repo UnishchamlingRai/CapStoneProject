@@ -15,7 +15,7 @@ const fromDetails = {
 };
 const SingInForm = () => {
   const [formData, setFromData] = useState(fromDetails);
-
+  
   const { email, password } = formData;
 
   const resetFormField = () => {
@@ -32,7 +32,8 @@ const SingInForm = () => {
 
     try {
       const response = await AuthsignInWithEmailAndPassword(email, password);
-      console.log("REspoonse:", response);
+      // setCurrentUser(response)
+    //   console.log("REspoonse:", response);
 
       resetFormField();
     } catch (error) {
@@ -53,8 +54,9 @@ const SingInForm = () => {
 
   const logGoogleUser = async () => {
     let response = await signInWithGooglePopup();
+    // setCurrentUser(response)
     console.log(response);
-    createUserDocumentFromAuth(response);
+    
   };
   return (
     <div className="signUP-container">

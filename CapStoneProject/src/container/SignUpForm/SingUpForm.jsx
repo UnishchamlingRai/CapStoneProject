@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import './SignUpForm.scss'
 import { createUserAuthWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebase'
 import FormInput from '../FormInput/FormInput'
@@ -12,6 +12,7 @@ const fromDetails={
 }
 const SingUpForm = () => {
 
+console.log("heeeeeet")
 
     const[formData,setFromData]=useState(fromDetails)
 
@@ -39,7 +40,9 @@ const SingUpForm = () => {
        }
        try {
         let response=await createUserAuthWithEmailAndPassword(email,password)
-        console.log("Response",response)
+        // setCurrentUser(response)
+        resetFormField()
+        // console.log("Response",response)
       if(response){
        await createUserDocumentFromAuth(response,{displayName})
       }
@@ -52,7 +55,7 @@ const SingUpForm = () => {
         
        }
        
-       resetFormField()
+       
     }
   return (
     <div className='signUP-container'>
