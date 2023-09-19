@@ -2,12 +2,20 @@ import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import CorwnLog from '../../assets/007 crown.svg'
 import './Navigation.scss'
-import { UserContext } from '../../UserContext/userContext'
 import { useContext } from 'react'
+import { UserContext } from '../../Context/userContext'
+import { CartContext } from '../../Context/cartContext'
+
+
 import { UsersignOut } from '../../utils/firebase/firebase'
+import CardIcon from '../../container/CardIcon/CardIcon'
+import CardDropdown from '../../container/Card-Dropdown/CardDropdown'
+
 const Navigation = () => {
   const {currentUser}=useContext(UserContext)
-  console.log(currentUser)
+  // console.log(currentUser)
+
+  const {iscartOpen}=useContext(CartContext)
   
   
 
@@ -31,7 +39,9 @@ const Navigation = () => {
                 Sign In 
             </Link>
                )}
+               <CardIcon />
             </div>
+            {iscartOpen&&<CardDropdown />}
         </div>
         <Outlet/>
       </>
