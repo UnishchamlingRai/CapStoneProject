@@ -10,6 +10,9 @@ import CheckOut from "./routes/CheckOut/CheckOut";
 
 const App = () => {
   return (
+    
+    <>
+    <h1>Hello I am Reducer</h1>
     <Routes>
       <Route path="/" element={<Navigation />}>
         <Route index element={<Home />} />
@@ -18,6 +21,7 @@ const App = () => {
         <Route path="auth" element={<Authentication />} />
       </Route>
     </Routes>
+    </>
   );
 };
 
