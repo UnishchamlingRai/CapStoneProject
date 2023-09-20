@@ -1,8 +1,34 @@
-import {  createContext,useEffect,useState } from "react";
+import {  createContext,useEffect,useReducer,useState } from "react";
 import {  onAuthStateChangedListner,createUserDocumentFromAuth } from "../utils/firebase/firebase";
 
-//as the actual value you want to access
 
+
+
+export const SET_CURRENT_USER={
+    SET_CURRENT_USER:"SET_CURRENT_USER"
+}
+
+const reducer=(state,action)=>{
+    console.log("STATE OF REDUCER FUNCTION:",state)
+    console.log('ACTION:',action)
+    const{type,payload}=action
+    
+
+    switch(type){
+        case SET_CURRENT_USER.SET_CURRENT_USER: 
+        return {...state,currentUser:payload}
+
+        default:
+       return console.log("Error")
+    }
+
+}
+
+let INITAIL_STATE={
+    currentUser:null,
+    name:"Unish",
+    address:"Gaighat"
+}
 export const UserContext=createContext({
 currentUser:null,
 setCurrentUser:()=>null
@@ -25,7 +51,13 @@ export const UserProvider=({children})=>{
         return unsuscribe
 
     },[])
-    const[currentUser,setCurrentUser]=useState(null)
+    
+    const[{currentUser},dispatch]=useReducer(reducer,INITAIL_STATE)
+    
+    const setCurrentUser=(user)=>{
+        dispatch({type:SET_CURRENT_USER.SET_CURRENT_USER,payload:user})
+
+    }
     const value={currentUser,setCurrentUser}
 console.log("Value of Context: ",value)
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
