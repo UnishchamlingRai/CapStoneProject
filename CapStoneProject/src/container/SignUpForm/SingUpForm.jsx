@@ -12,7 +12,7 @@ const fromDetails={
 }
 const SingUpForm = () => {
 
-console.log("heeeeeet")
+// console.log("heeeeeet")
 
     const[formData,setFromData]=useState(fromDetails)
 

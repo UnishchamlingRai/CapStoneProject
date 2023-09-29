@@ -1,18 +1,23 @@
 import React from "react";
-import { useContext } from "react";
-import { CategoriesContext } from "../../Context/CategoriesContext";
+
 import CategoryPreview from "../../container/Category-Preview/CategoryPreview";
+import {useSelector} from 'react-redux'
+import { selectCategoriesMap, selectIsLoading } from "../../store/categories/categories.selector";
+import SpennerLoading from "../../container/SpennerLoading/SpennerLoading";
+// import { setCategoriesSelector } from "../../store/categories/categories.selector";
+
 const CategoriesPrevews = () => {
-  const { categoriesMap } = useContext(CategoriesContext);
-  
+ const categoriesMap=useSelector(selectCategoriesMap)
+ const IsLoading=useSelector(selectIsLoading)
+ console.log("hello Categoruyesjdjflkdjflk")
   return (
     <>
-      {Object.keys(categoriesMap).map((title,index) => {
+      {IsLoading?<SpennerLoading />:<> {Object.keys(categoriesMap).map((title,index) => {
         const product=categoriesMap[title]
         return ( 
           <CategoryPreview key={title} title={title} product={product} />
         );
-      })}
+      })}</>}
     </>
   );
 };

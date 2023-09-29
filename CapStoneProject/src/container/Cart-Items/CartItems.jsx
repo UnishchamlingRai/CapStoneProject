@@ -1,7 +1,7 @@
 import React from 'react'
 import './CartItems.scss'
-const CartItems = (cartItems) => {
-    const{name,quantity,imageUrl,price}=cartItems.cartitems
+const CartItems = ({cartItems}) => {
+    const{name,quantity,imageUrl,price}=cartItems
   return (
     <div className='cart-item-container'>
       <img src={imageUrl} alt={`${name}`} />
