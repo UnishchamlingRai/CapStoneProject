@@ -34,7 +34,7 @@ provider.setCustomParameters({
 });
 
 export const auth = getAuth();
-console.log("Auth:",auth)
+// console.log("Auth:",auth)
 export const signInWithGooglePopup = () => {
   return signInWithPopup(auth, provider);
 };
@@ -44,7 +44,7 @@ export const signInWithGoogleRedirect=()=>{
 }
 
 const db = getFirestore();
-console.log("Db",db)
+// console.log("Db",db)
 
 
 export const addCollectionAndDocument=async (collectionKey,objectsToAdd)=>{
@@ -62,19 +62,22 @@ export const addCollectionAndDocument=async (collectionKey,objectsToAdd)=>{
 
 export const getCategoriesAndDocument=async ()=>{
   const collectionRef=collection(db,"categories");
-  console.log("COLLECTION REF:",collectionRef)
+  // console.log("COLLECTION REF:",collectionRef)
   const q=query(collectionRef)
-  console.log("AUERYS:",q)
+  // console.log("AUERYS:",q)
 
   const querySnapShot=await getDocs(q)
-  console.log("QUERY SNAP SHOT:",querySnapShot)
-  const categoryMap=querySnapShot.docs.reduce((acc,docShapshot)=>{
-    const{title,items}=docShapshot.data()
-    acc[title.toLowerCase()]=items
-    return acc
-  },{})
+  // console.log("QUERY SNAP SHOT:",querySnapShot)
 
-  return categoryMap
+  return querySnapShot.docs.map((docSnapShot)=>docSnapShot.data())
+
+  // const categoryMap=querySnapShot.docs.reduce((acc,docShapshot)=>{
+  //   const{title,items}=docShapshot.data()
+  //   acc[title.toLowerCase()]=items
+  //   return acc
+  // },{})
+
+  // return categoryMap
 }
 
 
@@ -83,11 +86,11 @@ export const createUserDocumentFromAuth = async (userAuth,additionalInformation=
   if(!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
 
-  console.log("userDocRef", userDocRef);
+  // console.log("userDocRef", userDocRef);
 
   const userSnapShot = await getDoc(userDocRef);
-  console.log("UserSnapShot:",userSnapShot);
-  console.log(userSnapShot.exists());
+  // console.log("UserSnapShot:",userSnapShot);
+  // console.log(userSnapShot.exists());
 
   if (!userSnapShot.exists()) {
     const { displayName, email } = userAuth.user;
@@ -125,6 +128,6 @@ export const UsersignOut=async ()=>{
 
 
 export const onAuthStateChangedListner=(callback)=>{
-  console.log("hello....")
+  // console.log("hello....")
   return onAuthStateChanged(auth,callback)
 }
