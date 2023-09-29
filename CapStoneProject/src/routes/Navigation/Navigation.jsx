@@ -3,21 +3,23 @@ import { Link, Outlet } from 'react-router-dom'
 import CorwnLog from '../../assets/007 crown.svg'
 import './Navigation.scss'
 import { useContext } from 'react'
-import { UserContext } from '../../Context/userContext'
+// import { UserContext } from '../../Context/userContext'
 import { CartContext } from '../../Context/cartContext'
 
 
 import { UsersignOut } from '../../utils/firebase/firebase'
 import CardIcon from '../../container/CardIcon/CardIcon'
 import CardDropdown from '../../container/Card-Dropdown/CardDropdown'
-
+import {useSelector} from 'react-redux'
+import { userSelectors } from '../../store/user/user.selectors'
+import { selectIsCartOpen } from '../../store/cart/cart.selector'
 const Navigation = () => {
-  const {currentUser}=useContext(UserContext)
-  // console.log(currentUser)
+  
 
-  const {iscartOpen}=useContext(CartContext)
+let currentUser=useSelector(userSelectors)
   
-  
+  const iscartOpen=useSelector(selectIsCartOpen)
+
 
   
     return (
