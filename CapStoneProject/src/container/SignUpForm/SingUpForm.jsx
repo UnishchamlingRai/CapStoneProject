@@ -3,7 +3,8 @@ import './SignUpForm.scss'
 import { createUserAuthWithEmailAndPassword,createUserDocumentFromAuth } from '../../utils/firebase/firebase'
 import FormInput from '../FormInput/FormInput'
 import DefaultButton from '../DefaultButton/DefaultButton'
-
+import { useDispatch } from 'react-redux'
+import { signUpStarted } from '../../store/user/user.action'
 const fromDetails={
     displayName:"",
     email:"",
@@ -13,6 +14,7 @@ const fromDetails={
 const SingUpForm = () => {
 
 // console.log("heeeeeet")
+const dispatch=useDispatch()
 
     const[formData,setFromData]=useState(fromDetails)
 
@@ -39,13 +41,9 @@ const SingUpForm = () => {
         alert("Password Not Match")
        }
        try {
-        let response=await createUserAuthWithEmailAndPassword(email,password)
-        // setCurrentUser(response)
+      dispatch(signUpStarted(email,password,displayName))
         resetFormField()
-        // console.log("Response",response)
-      if(response){
-       await createUserDocumentFromAuth(response,{displayName})
-      }
+        
        } catch (error) {
         if(error.code==="auth/email-already-in-use"){
           alert("User Already Exit")

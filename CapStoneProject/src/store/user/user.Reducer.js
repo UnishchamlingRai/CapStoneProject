@@ -1,6 +1,8 @@
-import { SET_CURRENT_USER } from "./user.actionType"
+import { USER_ACTION_TYPE } from "./user.actionType"
 let initialState={
-    currentUser:null
+    currentUser:null,
+    isLoading:false,
+    error:null
 }
 
 export const userReducer=(state=initialState,action)=>{
@@ -10,8 +12,23 @@ export const userReducer=(state=initialState,action)=>{
     
 
     switch(type){
-        case SET_CURRENT_USER.SET_CURRENT_USER: 
+        case USER_ACTION_TYPE.SET_CURRENT_USER: 
         return {...state,currentUser:payload}
+
+        case USER_ACTION_TYPE.SIGN_IN_SUCCESS:
+            return {...state,currentUser:payload}
+
+        case USER_ACTION_TYPE.SIGN_IN_FAILED:{
+            return {...state, error:payload}
+        }
+
+        case USER_ACTION_TYPE.SIGN_UP_SUCCESS: 
+        return {...state,currentUser:null}
+
+        case USER_ACTION_TYPE.SIGNOUT_FAILED: 
+        return {...state,error:payload}
+
+
         default:
        return state
     }

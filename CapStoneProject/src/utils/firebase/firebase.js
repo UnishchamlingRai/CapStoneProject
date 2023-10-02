@@ -60,8 +60,8 @@ export const addCollectionAndDocument=async (collectionKey,objectsToAdd)=>{
   console.log("Done")
 }
 
-export const getCategoriesAndDocument=async ()=>{
-  const collectionRef=collection(db,"categories");
+export const getCategoriesAndDocument=async (categories)=>{
+  const collectionRef=collection(db,categories);
   // console.log("COLLECTION REF:",collectionRef)
   const q=query(collectionRef)
   // console.log("AUERYS:",q)
@@ -83,6 +83,7 @@ export const getCategoriesAndDocument=async ()=>{
 
 
 export const createUserDocumentFromAuth = async (userAuth,additionalInformation={}) => {
+  console.log("User Auth From FireBase:",userAuth)
   if(!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
 
@@ -93,22 +94,21 @@ export const createUserDocumentFromAuth = async (userAuth,additionalInformation=
   // console.log(userSnapShot.exists());
 
   if (!userSnapShot.exists()) {
-    const { displayName, email } = userAuth.user;
+    const { displayName, email } = userAuth;
     const createdAt = new Date();
 
     try {
       await setDoc(userDocRef,{
-        displayName,
+        displayName:displayName ? displayName:additionalInformation,
         email,
-        createdAt,
-        ...additionalInformation
+        createdAt
       });
     } catch (error) {
       console.log(error.message);
     }
   }
 
-  return userDocRef
+  return userSnapShot
 };
 
 
@@ -125,9 +125,18 @@ export const AuthsignInWithEmailAndPassword=(email,password)=>{
 export const UsersignOut=async ()=>{
   return await signOut(auth)
 }
+ 
 
+// export const onAuthStateChangedListner=(callback)=>{
+//   // console.log("hello....")
+//   return onAuthStateChanged(auth,callback)
+// }
 
-export const onAuthStateChangedListner=(callback)=>{
-  // console.log("hello....")
-  return onAuthStateChanged(auth,callback)
-}
+export const getCurrentUser=()=>{
+  return new Promise((resolve,reject)=>{
+    const unsuscribe=onAuthStateChanged(auth,(userAuth)=>{
+      unsuscribe();
+      resolve(userAuth)
+    },reject)
+  })
+} 

@@ -3,18 +3,20 @@ import './SignInForm.scss'
 // import {} from "../../utils/firebase/firebase";
 import FormInput from "../FormInput/FormInput";
 import DefaultButton from "../DefaultButton/DefaultButton";
-
+import { useDispatch } from "react-redux";
 import {
   createUserDocumentFromAuth,
   signInWithGooglePopup,
   AuthsignInWithEmailAndPassword,
 } from "../../utils/firebase/firebase";
+import { emailSignInStart, googleSignInStart } from "../../store/user/user.action";
 const fromDetails = {
   email: "",
   password: "",
 };
 const SingInForm = () => {
   const [formData, setFromData] = useState(fromDetails);
+  let dispatch=useDispatch()
   
   const { email, password } = formData;
 
@@ -27,13 +29,14 @@ const SingInForm = () => {
     setFromData({ ...formData, [name]: value });
   };
 
-  const submitHandler = async (event) => {
+  const submitHandler =(event) => {
     event.preventDefault();
 
     try {
-      const response = await AuthsignInWithEmailAndPassword(email, password);
+      // const response = await AuthsignInWithEmailAndPassword(email, password);
+      const response = dispatch(emailSignInStart(email,password))
       // setCurrentUser(response)
-    //   console.log("REspoonse:", response);
+      // console.log("REspoonse:", response);
 
       resetFormField();
     } catch (error) {
@@ -52,11 +55,8 @@ const SingInForm = () => {
 
  
 
-  const logGoogleUser = async () => {
-    let response = await signInWithGooglePopup();
-    // setCurrentUser(response)
-    console.log(response);
-    
+  const logGoogleUser = () => {
+    dispatch(googleSignInStart())
   };
   return (
     <div className="signUP-container">
