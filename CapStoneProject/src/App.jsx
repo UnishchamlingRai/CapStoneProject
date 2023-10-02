@@ -35,7 +35,7 @@ const App = () => {
   // const dispatch=useDispatch()
   return (
     <>
-      <h1>Hello I am Redux Saga</h1>
+      <h1>Hello I am Redux Tollkit</h1>
 
       <Routes>
         <Route path="/" element={<Navigation />}>

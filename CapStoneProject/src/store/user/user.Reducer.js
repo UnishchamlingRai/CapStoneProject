@@ -1,9 +1,11 @@
+
 import { USER_ACTION_TYPE } from "./user.actionType"
 let initialState={
     currentUser:null,
     isLoading:false,
     error:null
 }
+
 
 export const userReducer=(state=initialState,action)=>{
     // console.log("STATE OF REDUCER FUNCTION:",state)
