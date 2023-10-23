@@ -1,7 +1,9 @@
 import {createSelector} from 'reselect'
-
-export const selectCategoryReducer=(state)=>{
-  // console.log("hello select 1 fired",state)
+import { RootState } from '../store'
+import { categoriesState } from './categories.Reducer';
+import { CategoryMap } from './categories.actionType';
+export const selectCategoryReducer=(state:RootState):categoriesState=>{
+  console.log("hello select 1 fired",state)
   return state.categories;
 }
 
@@ -19,12 +21,12 @@ export const selectCategories=createSelector(
     [selectCategories],
     (categories)=>{
 // console.log("Selector fired..")
-      return categories.reduce((acc, category) => {
+      return categories.reduce((acc, category):CategoryMap => {
         // console.log("Category Selector Fired Reduce")
         const { title, items } = category;
         acc[title.toLowerCase()] = items;
         return acc;
-      }, {});
+      }, {} as CategoryMap);
     }
   )
 

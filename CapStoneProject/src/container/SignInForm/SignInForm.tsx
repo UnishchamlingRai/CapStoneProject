@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useState,FormEvent,ChangeEvent } from "react";
 import './SignInForm.scss'
 // import {} from "../../utils/firebase/firebase";
 import FormInput from "../FormInput/FormInput";
 import DefaultButton from "../DefaultButton/DefaultButton";
 import { useDispatch } from "react-redux";
-import {
-  createUserDocumentFromAuth,
-  signInWithGooglePopup,
-  AuthsignInWithEmailAndPassword,
-} from "../../utils/firebase/firebase";
+
 import { emailSignInStart, googleSignInStart } from "../../store/user/user.action";
+import { AuthError, AuthErrorCodes } from "firebase/auth";
 const fromDetails = {
   email: "",
   password: "",
@@ -24,12 +21,12 @@ const SingInForm = () => {
     setFromData(fromDetails);
   };
 
-  const eventHandler = (event) => {
+  const eventHandler = (event:ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFromData({ ...formData, [name]: value });
   };
 
-  const submitHandler =(event) => {
+  const submitHandler =(event:FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
@@ -40,11 +37,11 @@ const SingInForm = () => {
 
       resetFormField();
     } catch (error) {
-      switch (error.code) {
-        case "auth/wrong-password":
+      switch ((error as AuthError).code) {
+        case AuthErrorCodes.INVALID_PASSWORD:
           alert("incorrect password for email");
           break;
-        case "auth/user-not-found":
+        case AuthErrorCodes.INVALID_EMAIL:
           alert("no user associated with this email");
           break;
         default:
@@ -52,6 +49,7 @@ const SingInForm = () => {
       }
     }
   };
+  // "auth/wrong-password"
 
  
 
