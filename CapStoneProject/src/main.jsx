@@ -7,8 +7,15 @@ import { UserProvider } from "./Context/userContext.jsx";
 
 import { CategoriesProvider } from "./Context/CategoriesContext.jsx";
 import { CartProvider } from "./Context/cartContext.jsx";
+import {InMemoryCache,ApolloProvider, ApolloClient} from '@apollo/client'
+const client=new ApolloClient({
+  uri:"https://dummyjson.com/products",
+  cache:new InMemoryCache()
+})
+console.log("client:",client)
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <ApolloProvider client={client}>
     <BrowserRouter>
       <UserProvider>
         <CategoriesProvider>
@@ -18,5 +25,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </CategoriesProvider>
       </UserProvider>
     </BrowserRouter>
+    </ApolloProvider>
   </React.StrictMode>
 );
